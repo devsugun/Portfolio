@@ -1,8 +1,32 @@
 const express = require('express');
 const app = express();
 
+const mongodb = require('mongodb');
+const url = 'mongodb://localhost:27017/';
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var newData = { 
+    order_item_id: order_item_id,
+    product_id: product_id,
+    product_category: products.product_category_name,
+    price: price,
+    date: shipping_limit_date,
+    total: 90214,
+    limit: 20,
+    offset: 560
+  };
+  dbo.collection("orders").insertOne(newData, function(err, res) {
+    if (err) throw err;
+    console.log("Data inserted");
+    db.close();
+  });
+});
+
+
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://devsegun:Domcat-1013@cluster0.mongodb.net/c";
+const uri = "mongodb+srv://devsegun:Domcat-1013@cluster0.ivbooq0.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   if (err) throw err;
