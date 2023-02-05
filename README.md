@@ -1,1 +1,3 @@
 ....
+open the server folder and start the server with npm start
+the open the react app and run npm start to start the project
