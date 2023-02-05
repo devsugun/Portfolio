@@ -1,50 +1,80 @@
 import React, { useState, useEffect } from "react";
-import Preloader from "../src/components/Pre";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home/Home";
-import About from "./components/About/About";
-import Projects from "./components/Projects/Projects";
-import Footer from "./components/Footer";
-import Resume from "./components/Resume/ResumeNew";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate
-} from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
-import "./style.css";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
-  const [load, upadateLoad] = useState(true);
+const App = () => {
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      upadateLoad(false);
-    }, 1200);
-
-    return () => clearTimeout(timer);
+    fetch("mongodb+srv://devsegun:Domcat-1013@cluster0.ivbooq0.mongodb.net/?retryWrites=true&w=majority")
+      .then(response => response.json())
+      .then(data => {
+        setData(data.data);
+      });
   }, []);
 
+  const addItem = () => {
+    const newData = [...data];
+    newData.push({
+      order_item_id: 0,
+      product_id: 0,
+      products: { product_category_name: "" },
+      price: 0,
+      shipping_limit_date: ""
+    });
+    setData(newData);
+  };
+  
+
+  const editItem = (index) => {
+    const newData = [...data];
+    newData[index] = {
+      ...newData[index],
+      order_item_id: 1,
+      product_id: 1,
+      products: { product_category_name: "Category 1" },
+      price: 10,
+      shipping_limit_date: "2022-01-01"
+    };
+    setData(newData);
+  };
+  
+  const deleteItem = (index) => {
+    const newData = [...data];
+    newData.splice(index, 1);
+    setData(newData);
+  };
+  
   return (
-    <Router>
-      <Preloader load={load} />
-      <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Navbar />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/project" element={<Projects />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="*" element={<Navigate to="/"/>} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Order Item ID</th>
+            <th>Product ID</th>
+            <th>Product Category</th>
+            <th>Price</th>
+            <th>Shipping Limit Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={item.order_item_id}>
+              <td>{item.order_item_id}</td>
+              <td>{item.product_id}</td>
+              <td>{item.products.product_category_name}</td>
+              <td>{item.price}</td>
+              <td>{item.shipping_limit_date}</td>
+              <td>
+                <button onClick={() => editItem(index)}>Edit</button>
+                <button onClick={() => deleteItem(index)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button onClick={addItem}>Add Item</button>
+    </div>
   );
-}
+};
 
 export default App;
