@@ -3,6 +3,9 @@ const app = express();
 
 const mongodb = require('mongodb');
 const url = 'mongodb://localhost:27017/';
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://devsegun:Domcat-1013@cluster0.ivbooq0.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
@@ -25,9 +28,6 @@ MongoClient.connect(url, function(err, db) {
 });
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://devsegun:Domcat-1013@cluster0.ivbooq0.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   if (err) throw err;
   console.log('Connected to MongoDB');
