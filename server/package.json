@@ -1,0 +1,23 @@
+{
+  "name": "my-server",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "csv": "^6.2.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "gulp-imagemin": "^4.1.0",
+    "mongodb": "^5.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
+  }
+}
